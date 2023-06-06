@@ -45,7 +45,8 @@ module OTTER_CU_Decoder(
                    STORE    = 7'b0100011,
                    OP_IMM   = 7'b0010011,
                    OP       = 7'b0110011,
-                   SYSTEM   = 7'b1110011
+                   SYSTEM   = 7'b1110011,
+                   ENCRY    = 7'b0011100
         } opcode_t;
         
         

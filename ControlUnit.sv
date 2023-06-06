@@ -50,7 +50,7 @@ module OTTER_CU_FSM(
                    OP_IMM   = 7'b0010011,
                    OP       = 7'b0110011,
                    SYSTEM   = 7'b1110011,
-                   ENCRY    = 7'b1111111    // NEED TO EDIT THIS
+                   ENCRY    = 7'b0011100
         } opcode_t;
         //wire CU_OPCODE =CU_IR[6:0];
         //wire func3 = CU_IR[14:12];

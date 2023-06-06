@@ -22,7 +22,7 @@
 // rs1 - plain text
 // rs2 - user key
 // count - encryption state (0, 1, 2, 3)
-// sel - encrypt or decrypt
+// sel - encrypt or decrypt (0 or 1)
 // rd - encrypted output data
 
 module CryptographyModule(
