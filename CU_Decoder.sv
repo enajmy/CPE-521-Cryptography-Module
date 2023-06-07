@@ -31,9 +31,10 @@ module OTTER_CU_Decoder(
     output logic CU_ALU_SRCA,
     output logic [1:0] CU_ALU_SRCB,
     output logic [3:0] CU_ALU_FUN,
-    output logic [1:0] CU_RF_WR_SEL,   
-    output logic [3:0] CU_PCSOURCE
+    output logic [2:0] CU_RF_WR_SEL,   
+    output logic [3:0] CU_PCSOURCE,
     //output logic [1:0] CU_MSIZE
+    output logic cryptoSel
    );
         typedef enum logic [6:0] {
                    LUI      = 7'b0110111,
@@ -87,6 +88,8 @@ module OTTER_CU_Decoder(
                         3'b101: brn_cond = ~CU_BR_LT;    //BGE
                         3'b110: brn_cond = CU_BR_LTU;    //BLTU
                         3'b111: brn_cond = ~CU_BR_LTU;   //BGEU
+                        3'b010: cryptoSel = 0;           // ENCRYPT
+                        3'b011: cryptoSel = 1;           // DECRYPT
                         default: brn_cond =0;
             endcase
             
@@ -98,6 +101,7 @@ module OTTER_CU_Decoder(
                     JALR:    CU_RF_WR_SEL=0;
                     LOAD:    CU_RF_WR_SEL=2;
                     SYSTEM:  CU_RF_WR_SEL=1;
+                    ENCRY:   CU_RF_WR_SEL=4;
                     default: CU_RF_WR_SEL=3; 
                 endcase
             //else CU_RF_WR_SEL=3;   

@@ -97,6 +97,14 @@ module OTTER_CU_FSM(
                                 if(CU_OPCODE !=LOAD) begin
                                     state <= FETCH;
                                     if(CU_INT || CU_prevINT) state <= INTER;
+                                end else if (CU_OPCODE == ENCRY) begin
+                                    if (crypto_count == 3) begin 
+                                        crypto_count = 0; 
+                                        state <= FETCH; 
+                                    end else begin 
+                                        crypto_count <= crypto_count + 1; 
+                                        state <= EXECUTE; 
+                                    end
                                 end else
                                     state <= WB;                            
                              //   state <= (CU_OPCODE !=LOAD)? FETCH:WB; // EX all but LOAD

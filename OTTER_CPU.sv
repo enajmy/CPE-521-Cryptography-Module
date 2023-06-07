@@ -55,7 +55,7 @@ module OTTER_MCU(input CLK,
 
     wire [6:0] opcode;
     wire [31:0] pc, pc_value, next_pc, jalr_pc, branch_pc, jump_pc, int_pc,A,B,
-        I_immed,S_immed,U_immed,aluBin,aluAin,aluResult,rfIn,csr_reg, mem_data;
+        I_immed,S_immed,U_immed,aluBin,aluAin,aluResult,rfIn,csr_reg, mem_data, cryptoData;
     
     wire [31:0] IR;
     wire memRead1,memRead2;
@@ -90,7 +90,7 @@ module OTTER_MCU(input CLK,
     OTTER_registerFile RF (IR[19:15], IR[24:20], IR[11:7], rfIn, regWrite, A, B, CLK); // Register file
  
     //Creates 4-to-1 multiplexor used to select reg write back data
-    Mult4to1 regWriteback (next_pc,csr_reg,mem_data,aluResult,wb_sel,rfIn);
+    Mult4to1 regWriteback (next_pc,csr_reg,mem_data,aluResult,cryptoData,wb_sel,rfIn);
   
     //pc target calculations 
     assign next_pc = pc + 4;    //PC is byte aligned, memory is word aligned
@@ -135,16 +135,23 @@ module OTTER_MCU(input CLK,
     // ^ CHANGED IR[13:12] to mem_size_after FOR PROGRAMMER
     // ^ CHANGED IR[14] to mem_sign_after FOR PROGRAMMER
      
+     logic cryptoSelect;
+     logic [1:0] cryptoCounter;
+     
      OTTER_CU_Decoder CU_DECODER(.CU_OPCODE(opcode), .CU_FUNC3(IR[14:12]),.CU_FUNC7(IR[31:25]), 
              .CU_BR_EQ(br_eq),.CU_BR_LT(br_lt),.CU_BR_LTU(br_ltu),.CU_PCSOURCE(pc_sel),
-             .CU_ALU_SRCA(opA_sel),.CU_ALU_SRCB(opB_sel),.CU_ALU_FUN(alu_fun),.CU_RF_WR_SEL(wb_sel),.intTaken(intTaken));
+             .CU_ALU_SRCA(opA_sel),.CU_ALU_SRCB(opB_sel),.CU_ALU_FUN(alu_fun),.CU_RF_WR_SEL(wb_sel),
+             .intTaken(intTaken), .cryptoSel(cryptoSelect));
+   
+    Crypto_Module CryptographyModule(.rs1(A), .rs2(B), .count(cryptoCounter), .sel(cryptoSelect), .rd(cryptoData));
             
      logic prev_INT=0;
      
      OTTER_CU_FSM CU_FSM (.CU_CLK(CLK), .CU_INT(INTR), .CU_RESET(RESET), .CU_OPCODE(opcode), //.CU_OPCODE(opcode),
                      .CU_FUNC3(IR[14:12]),.CU_FUNC12(IR[31:20]),
                      .CU_PCWRITE(pcWrite), .CU_REGWRITE(regWrite), .CU_MEMWRITE(memWrite), 
-                     .CU_MEMREAD1(memRead1),.CU_MEMREAD2(memRead2),.CU_intTaken(intTaken),.CU_intCLR(intCLR),.CU_csrWrite(csrWrite),.CU_prevINT(prev_INT));
+                     .CU_MEMREAD1(memRead1),.CU_MEMREAD2(memRead2),.CU_intTaken(intTaken),
+                     .CU_intCLR(intCLR),.CU_csrWrite(csrWrite),.CU_prevINT(prev_INT), .crypto_count(cryptoCounter));
     
     //CSR registers and interrupt logic
      CSR CSRs(.clk(CLK),.rst(RESET),.intTaken(intTaken),.addr(IR[31:20]),.next_pc(pc),.wd(aluResult),.wr_en(csrWrite),
