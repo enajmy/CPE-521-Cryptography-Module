@@ -11,8 +11,8 @@ Contents of section .text:
  0044 130fffff 23a0d500 035b0600 b3fb6a01  ....#....[....j.
  0054 e38c0bfe 337ceb01 23a0e500 035b0600  ....3|..#....[..
  0064 b37b6a01 e38c0bfe b37ceb01 938d0c00  .{j......|......
- 0074 b3ac8c01 138d0c00 97000000 e780c002  ................
- 0084 23a0c501 035b0600 b3bb6901 e38c0bfe  #....[....i.....
+ 0074 dbac8c01 138d0c00 97000000 e780c002  ................
+ 0084 23a0c501 035b0600 dbbb6901 e38c0bfe  #....[....i.....
  0094 b30cbd41 97000000 e7800001 23a0c501  ...A........#...
  00a4 67800000 130e0000 63c87c00 130e1e00  g.......c.|.....
  00b4 938c8cc1 6ff05fff 131e4e00 63c88c00  ....o._...N.c...
@@ -67,7 +67,7 @@ Disassembly of section .text:
   68:	fe0b8ce3          	beqz	s7,60 <loop2>
   6c:	01eb7cb3          	and	s9,s6,t5
   70:	000c8d93          	mv	s11,s9
-  74:	018cacb3          	encrypt	s9,s9,s8
+  74:	018cacdb          	encrypt	s9,s9,s8
   78:	000c8d13          	mv	s10,s9
   7c:	00000097          	auipc	ra,0x0
   80:	02c080e7          	jalr	44(ra) # a8 <bcd>
@@ -75,7 +75,7 @@ Disassembly of section .text:
 
 00000088 <loop3>:
   88:	00065b03          	lhu	s6,0(a2)
-  8c:	0169bbb3          	decrypt	s7,s3,s6
+  8c:	0169bbdb          	decrypt	s7,s3,s6
   90:	fe0b8ce3          	beqz	s7,88 <loop3>
   94:	41bd0cb3          	sub	s9,s10,s11
   98:	00000097          	auipc	ra,0x0
