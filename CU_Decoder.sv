@@ -34,7 +34,7 @@ module OTTER_CU_Decoder(
     output logic [2:0] CU_RF_WR_SEL,   
     output logic [3:0] CU_PCSOURCE,
     //output logic [1:0] CU_MSIZE
-    output logic cryptoSel
+    output logic cryptoSelOut
    );
         typedef enum logic [6:0] {
                    LUI      = 7'b0110111,
@@ -65,7 +65,8 @@ module OTTER_CU_Decoder(
         opcode_t OPCODE;
         assign OPCODE = opcode_t'(CU_OPCODE);
         
-        logic brn_cond;
+        logic brn_cond, cryptoSel;
+        assign cryptoSelOut = cryptoSel;
         //DECODING  (does not depend on state)  ////////////////////////////////////////////
        //SEPERATE DECODER
        // assign CU_ALU_FUN = (CU_OPCODE!=LUI)? (CU_OPCODE== )? {CU_FUNC7[5],CU_FUNC3}:4'b1001 ;
@@ -90,7 +91,7 @@ module OTTER_CU_Decoder(
                         3'b111: brn_cond = ~CU_BR_LTU;   //BGEU
                         3'b010: cryptoSel = 0;           // ENCRYPT
                         3'b011: cryptoSel = 1;           // DECRYPT
-                        default: brn_cond =0;
+                        default: begin brn_cond = 0; cryptoSel = 0; end
             endcase
             
          always_comb

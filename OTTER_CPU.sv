@@ -61,7 +61,8 @@ module OTTER_MCU(input CLK,
     wire memRead1,memRead2;
     
     wire pcWrite,regWrite,memWrite, op1_sel,mem_op,IorD,pcWriteCond,memRead;
-    wire [1:0] opB_sel, rf_sel, wb_sel, mSize;
+    wire [1:0] opB_sel, rf_sel, mSize;
+    wire [2:0] wb_sel;
     wire [3:0] pc_sel;
     wire [3:0]alu_fun;
     wire opA_sel;
@@ -141,7 +142,7 @@ module OTTER_MCU(input CLK,
      OTTER_CU_Decoder CU_DECODER(.CU_OPCODE(opcode), .CU_FUNC3(IR[14:12]),.CU_FUNC7(IR[31:25]), 
              .CU_BR_EQ(br_eq),.CU_BR_LT(br_lt),.CU_BR_LTU(br_ltu),.CU_PCSOURCE(pc_sel),
              .CU_ALU_SRCA(opA_sel),.CU_ALU_SRCB(opB_sel),.CU_ALU_FUN(alu_fun),.CU_RF_WR_SEL(wb_sel),
-             .intTaken(intTaken), .cryptoSel(cryptoSelect));
+             .intTaken(intTaken), .cryptoSelOut(cryptoSelect));
    
      Cryptography_Module Crypto_Module(.data_in(A), .key(B), .cnt(cryptoCounter), .sel(cryptoSelect), .result(cryptoData));
             
