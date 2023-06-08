@@ -47,11 +47,11 @@ sw x28, 0(x11)
 
 loop3:
 lhu x22, 0(x12)
-decrypt x23, x19, x22
+sub x23, x19, x22
 beqz x23, loop3
 
 # decrypt the numbers (subtract)
-sub x25, x26, x27
+decrypt x25, x26, x27
 call bcd
 sw x28, 0(x11)
 
