@@ -1,0 +1,116 @@
+
+build/program.elf:     file format elf32-littleriscv
+
+Contents of section .text.init:
+ 0000 17010100 130101fe 97000000 e780c000  ................
+ 0010 6f000000                             o...            
+Contents of section .text:
+ 0014 9303803e 13044006 9304a000 b7050c11  ...>..@.........
+ 0024 37060011 93061000 13072000 b78a0000  7......... .....
+ 0034 374a0000 b7290000 130e0000 371f0000  7J...)......7...
+ 0044 130fffff 23a0d500 035b0600 b3fb6a01  ....#....[....j.
+ 0054 e38c0bfe 337ceb01 23a0e500 035b0600  ....3|..#....[..
+ 0064 b37b6a01 e38c0bfe b37ceb01 938d0c00  .{j......|......
+ 0074 b3ac8c01 138d0c00 97000000 e780c002  ................
+ 0084 23a0c501 035b0600 b3bb6901 e38c0bfe  #....[....i.....
+ 0094 b30cbd41 97000000 e7800001 23a0c501  ...A........#...
+ 00a4 67800000 130e0000 63c87c00 130e1e00  g.......c.|.....
+ 00b4 938c8cc1 6ff05fff 131e4e00 63c88c00  ....o._...N.c...
+ 00c4 130e1e00 938cccf9 6ff05fff 131e4e00  ........o._...N.
+ 00d4 63c89c00 130e1e00 938c6cff 6ff05fff  c.........l.o._.
+ 00e4 131e4e00 338ecc01 67800000           ..N.3...g...    
+Contents of section .data:
+ 00f0 039f250d 9949411f 0109               ..%..IA...      
+Contents of section .riscv.attributes:
+ 0000 41190000 00726973 63760001 0f000000  A....riscv......
+ 0010 05727633 32693270 3100               .rv32i2p1.      
+
+Disassembly of section .text.init:
+
+00000000 <entry>:
+   0:	00010117          	auipc	sp,0x10
+   4:	fe010113          	add	sp,sp,-32 # ffe0 <__global_pointer$+0xf6f0>
+   8:	00000097          	auipc	ra,0x0
+   c:	00c080e7          	jalr	12(ra) # 14 <main>
+
+00000010 <end>:
+  10:	0000006f          	j	10 <end>
+
+Disassembly of section .text:
+
+00000014 <main>:
+  14:	3e800393          	li	t2,1000
+  18:	06400413          	li	s0,100
+  1c:	00a00493          	li	s1,10
+  20:	110c05b7          	lui	a1,0x110c0
+  24:	11000637          	lui	a2,0x11000
+  28:	00100693          	li	a3,1
+  2c:	00200713          	li	a4,2
+  30:	00008ab7          	lui	s5,0x8
+  34:	00004a37          	lui	s4,0x4
+  38:	000029b7          	lui	s3,0x2
+  3c:	00000e13          	li	t3,0
+  40:	00001f37          	lui	t5,0x1
+  44:	ffff0f13          	add	t5,t5,-1 # fff <__global_pointer$+0x70f>
+  48:	00d5a023          	sw	a3,0(a1) # 110c0000 <LEDS>
+
+0000004c <loop1>:
+  4c:	00065b03          	lhu	s6,0(a2) # 11000000 <__sp+0x10ff0000>
+  50:	016afbb3          	and	s7,s5,s6
+  54:	fe0b8ce3          	beqz	s7,4c <loop1>
+  58:	01eb7c33          	and	s8,s6,t5
+  5c:	00e5a023          	sw	a4,0(a1)
+
+00000060 <loop2>:
+  60:	00065b03          	lhu	s6,0(a2)
+  64:	016a7bb3          	and	s7,s4,s6
+  68:	fe0b8ce3          	beqz	s7,60 <loop2>
+  6c:	01eb7cb3          	and	s9,s6,t5
+  70:	000c8d93          	mv	s11,s9
+  74:	018cacb3          	encrypt	s9,s9,s8
+  78:	000c8d13          	mv	s10,s9
+  7c:	00000097          	auipc	ra,0x0
+  80:	02c080e7          	jalr	44(ra) # a8 <bcd>
+  84:	01c5a023          	sw	t3,0(a1)
+
+00000088 <loop3>:
+  88:	00065b03          	lhu	s6,0(a2)
+  8c:	0169bbb3          	decrypt	s7,s3,s6
+  90:	fe0b8ce3          	beqz	s7,88 <loop3>
+  94:	41bd0cb3          	sub	s9,s10,s11
+  98:	00000097          	auipc	ra,0x0
+  9c:	010080e7          	jalr	16(ra) # a8 <bcd>
+  a0:	01c5a023          	sw	t3,0(a1)
+  a4:	00008067          	ret
+
+000000a8 <bcd>:
+  a8:	00000e13          	li	t3,0
+
+000000ac <thou>:
+  ac:	007cc863          	blt	s9,t2,bc <hund>
+  b0:	001e0e13          	add	t3,t3,1
+  b4:	c18c8c93          	add	s9,s9,-1000
+  b8:	ff5ff06f          	j	ac <thou>
+
+000000bc <hund>:
+  bc:	004e1e13          	sll	t3,t3,0x4
+
+000000c0 <hund_l>:
+  c0:	008cc863          	blt	s9,s0,d0 <tens>
+  c4:	001e0e13          	add	t3,t3,1
+  c8:	f9cc8c93          	add	s9,s9,-100
+  cc:	ff5ff06f          	j	c0 <hund_l>
+
+000000d0 <tens>:
+  d0:	004e1e13          	sll	t3,t3,0x4
+
+000000d4 <tens_l>:
+  d4:	009cc863          	blt	s9,s1,e4 <ones>
+  d8:	001e0e13          	add	t3,t3,1
+  dc:	ff6c8c93          	add	s9,s9,-10
+  e0:	ff5ff06f          	j	d4 <tens_l>
+
+000000e4 <ones>:
+  e4:	004e1e13          	sll	t3,t3,0x4
+  e8:	01cc8e33          	add	t3,s9,t3
+  ec:	00008067          	ret
