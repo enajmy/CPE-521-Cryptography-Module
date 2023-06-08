@@ -42,6 +42,7 @@ mv x27, x25
 # encrypt the numbers (add)
 encrypt x25, x25, x24
 mv x26, x25 #save encrypted value before converting to bcd
+and x25, x25, x30
 call bcd
 sw x28, 0(x11)
 
