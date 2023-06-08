@@ -35,10 +35,10 @@ module Cryptography_Module(
         if(sel == 0)
         begin
             case(cnt)
-                0: result = {24'b0, iv ^ data_in[7:0] ^ key[7:0]};
-                1: result |= (result[7:0] ^ data_in[15:8] ^ key[15:8]) << 8;
-                2: result |= (result[15:8] ^ data_in[23:16] ^ key[23:16]) << 16;
-                3: result |= (result[23:16] ^ data_in[31:24] ^ key[31:24]) << 24;
+                0: result = {24'b0, (iv ^ data_in[7:0] ^ key[7:0])};
+                1: result |= {16'b0, (result[7:0] ^ data_in[15:8] ^ key[15:8]), 8'b0};
+                2: result |= {8'b0, (result[15:8] ^ data_in[23:16] ^ key[23:16]), 16'b0};
+                3: result |= {(result[23:16] ^ data_in[31:24] ^ key[31:24]), 24'b0};
                 default: result = 0;
             endcase
         end
@@ -46,9 +46,9 @@ module Cryptography_Module(
         begin
             case(cnt)
                 0: result = {24'b0, iv ^ data_in[7:0] ^ key[7:0]};
-                1: result |= (data_in[7:0] ^ data_in[15:8] ^ key[15:8]) << 8;
-                2: result |= (data_in[15:8] ^ data_in[23:16] ^ key[23:16]) << 16;
-                3: result |= (data_in[23:16] ^ data_in[31:24] ^ key[31:24]) << 24;
+                1: result |= {16'b0, (data_in[7:0] ^ data_in[15:8] ^ key[15:8]), 8'b0};
+                2: result |= {8'b0, (data_in[15:8] ^ data_in[23:16] ^ key[23:16]), 16'b0};
+                3: result |= {(data_in[23:16] ^ data_in[31:24] ^ key[31:24]), 24'b0};
                 default: result = 0;
             endcase
         end
