@@ -91,7 +91,7 @@ module OTTER_MCU(input CLK,
     OTTER_registerFile RF (IR[19:15], IR[24:20], IR[11:7], rfIn, regWrite, A, B, CLK); // Register file
  
     //Creates 4-to-1 multiplexor used to select reg write back data
-    Mult4to1 regWriteback (next_pc,csr_reg,mem_data,aluResult,cryptoData,wb_sel,rfIn);
+    Mult5to1 regWriteback (next_pc,csr_reg,mem_data,aluResult,cryptoData,wb_sel,rfIn);
   
     //pc target calculations 
     assign next_pc = pc + 4;    //PC is byte aligned, memory is word aligned
