@@ -72,7 +72,7 @@ module OTTER_CU_FSM(
         state_type state;
         
         logic MRET;
-        logic encryptCount;
+        logic encryptCount = 0;
         assign MRET = (CU_OPCODE==SYSTEM) && (CU_FUNC3==Func3_PRIV) && (CU_FUNC12==12'h302);         
                       
        //DECODING (depends on state) ////////////////////////////////////////////////////

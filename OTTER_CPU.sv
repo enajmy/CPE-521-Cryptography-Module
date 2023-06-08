@@ -143,7 +143,7 @@ module OTTER_MCU(input CLK,
              .CU_ALU_SRCA(opA_sel),.CU_ALU_SRCB(opB_sel),.CU_ALU_FUN(alu_fun),.CU_RF_WR_SEL(wb_sel),
              .intTaken(intTaken), .cryptoSel(cryptoSelect));
    
-    Crypto_Module CryptographyModule(.rs1(A), .rs2(B), .count(cryptoCounter), .sel(cryptoSelect), .rd(cryptoData));
+     Cryptography_Module Crypto_Module(.data_in(A), .key(B), .cnt(cryptoCounter), .sel(cryptoSelect), .result(cryptoData));
             
      logic prev_INT=0;
      
