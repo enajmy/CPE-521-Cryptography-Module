@@ -134,7 +134,7 @@ module OTTER_mem_dualport(MEM_CLK,MEM_ADDR1,MEM_ADDR2,MEM_DIN2,MEM_WRITE2,MEM_RE
     
     initial begin
         $readmemh("switches_bcd.mem", memory, 0, 2**ACTUAL_WIDTH-1);
-    end 
+    end  
     
 
     always_comb

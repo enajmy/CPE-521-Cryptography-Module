@@ -72,7 +72,7 @@ module OTTER_CU_FSM(
         state_type state;
         
         logic MRET;
-        logic encryptCount = 0;
+        
         assign MRET = (CU_OPCODE==SYSTEM) && (CU_FUNC3==Func3_PRIV) && (CU_FUNC12==12'h302);         
                       
        //DECODING (depends on state) ////////////////////////////////////////////////////
@@ -80,12 +80,12 @@ module OTTER_CU_FSM(
         assign CU_MEMREAD2 = (state==1 && CU_OPCODE==LOAD);
         assign CU_MEMWRITE = (state == 1) && (CU_OPCODE == STORE);
         
-        assign CU_PCWRITE = (state==1 && CU_OPCODE!=LOAD && ((CU_OPCODE != ENCRY) || (encryptCount == 3))) || (state==2 && CU_OPCODE==LOAD) ||(state==INTER); //(state == 0) || (state==1 && (CU_OPCODE ==JAL || CU_OPCODE==JALR || (CU_OPCODE==BRANCH && brn_cond)));
+        assign CU_PCWRITE = (state==1 && CU_OPCODE!=LOAD && ((CU_OPCODE != ENCRY) || (crypto_count == 3))) || (state==2 && CU_OPCODE==LOAD) ||(state==INTER); //(state == 0) || (state==1 && (CU_OPCODE ==JAL || CU_OPCODE==JALR || (CU_OPCODE==BRANCH && brn_cond)));
         
         // assign CU_RF_WR_SEL = ((state == 2) && (CU_OPCODE == OP || CU_OP_CODE)) ? 0 : 1;
-        assign CU_REGWRITE = (state == 2) || ((state == 1) && (CU_OPCODE != BRANCH && CU_OPCODE !=LOAD && CU_OPCODE !=STORE && ~MRET && ((CU_OPCODE!= ENCRY) || (encryptCount ==3))) ); 
+        assign CU_REGWRITE = (state == 2) || ((state == 1) && (CU_OPCODE != BRANCH && CU_OPCODE !=LOAD && CU_OPCODE !=STORE && ~MRET && ((CU_OPCODE!= ENCRY) || (crypto_count ==3))) ); 
          
-    initial begin state = FETCH; end // start the state machine in state 1 
+    initial begin state = FETCH; crypto_count = 0; end // start the state machine in state 1 
     // Here is the state machine, which only has to sequence states
     always @(posedge CU_CLK)
     begin // all state updates on a positive clock edge
@@ -94,10 +94,11 @@ module OTTER_CU_FSM(
                 case (state)       
                     FETCH: state <= EXECUTE; // FETCH, MEM[PC]->IR, unconditional next state
                     EXECUTE: begin
-                                if(CU_OPCODE !=LOAD) begin
+                                if(CU_OPCODE !=LOAD && CU_OPCODE !=ENCRY) begin
                                     state <= FETCH;
                                     if(CU_INT || CU_prevINT) state <= INTER;
-                                end else if (CU_OPCODE == ENCRY) begin
+                                end 
+                                else if (CU_OPCODE == ENCRY) begin
                                     if (crypto_count == 3) begin 
                                         crypto_count = 0; 
                                         state <= FETCH; 
