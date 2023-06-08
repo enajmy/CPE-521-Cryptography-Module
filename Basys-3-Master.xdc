@@ -3,6 +3,17 @@
 ## - uncomment the lines corresponding to used pins
 ## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
 
+set_property ALLOW_COMBINATORIAL_LOOPS true [get_nets -of_objects [get_cells MCU/CU_FSM/Crypto_Module/result0_in]]
+ 
+set_property ALLOW_COMBINATORIAL_LOOPS true [get_nets -of_objects [get_cells MCU/CU_FSM/crypto_count_reg[0]]]
+ 
+set_property ALLOW_COMBINATORIAL_LOOPS true [get_nets -of_objects [get_cells MCU/CU_DECODER/cryptoData]]
+ 
+ 
+set_property SEVERITY {Warning}  [get_drc_checks LUTLP-1]
+ 
+set_property SEVERITY {Warning} [get_drc_checks NSTD-1]
+
 ## Clock signal
 set_property PACKAGE_PIN W5 [get_ports CLK]
 	set_property IOSTANDARD LVCMOS33 [get_ports CLK]
@@ -233,34 +244,34 @@ set_property PACKAGE_PIN W19 [get_ports BTNL]
 
 
 ##VGA Connector
-#set_property PACKAGE_PIN G19 [get_ports {vgaRed[0]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[0]}]
-#set_property PACKAGE_PIN H19 [get_ports {vgaRed[1]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[1]}]
-#set_property PACKAGE_PIN J19 [get_ports {vgaRed[2]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[2]}]
-#set_property PACKAGE_PIN N19 [get_ports {vgaRed[3]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[3]}]
-#set_property PACKAGE_PIN N18 [get_ports {vgaBlue[0]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[0]}]
-#set_property PACKAGE_PIN L18 [get_ports {vgaBlue[1]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[1]}]
-#set_property PACKAGE_PIN K18 [get_ports {vgaBlue[2]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[2]}]
-#set_property PACKAGE_PIN J18 [get_ports {vgaBlue[3]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[3]}]
-#set_property PACKAGE_PIN J17 [get_ports {vgaGreen[0]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[0]}]
-#set_property PACKAGE_PIN H17 [get_ports {vgaGreen[1]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[1]}]
-#set_property PACKAGE_PIN G17 [get_ports {vgaGreen[2]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[2]}]
-#set_property PACKAGE_PIN D17 [get_ports {vgaGreen[3]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[3]}]
-#set_property PACKAGE_PIN P19 [get_ports Hsync]
-	#set_property IOSTANDARD LVCMOS33 [get_ports Hsync]
-#set_property PACKAGE_PIN R19 [get_ports Vsync]
-	#set_property IOSTANDARD LVCMOS33 [get_ports Vsync]
+#set_property PACKAGE_PIN G19 [get_ports {VGA_RGB[5]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[5]}]
+#set_property PACKAGE_PIN H19 [get_ports {VGA_RGB[5]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[5]}]
+#set_property PACKAGE_PIN J19 [get_ports {VGA_RGB[6]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[6]}]
+#set_property PACKAGE_PIN N19 [get_ports {VGA_RGB[7]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[7]}]
+#set_property PACKAGE_PIN N18 [get_ports {VGA_RGB[0]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[0]}]
+#set_property PACKAGE_PIN L18 [get_ports {VGA_RGB[0]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[0]}]
+#set_property PACKAGE_PIN K18 [get_ports {VGA_RGB[1]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[1]}]
+#set_property PACKAGE_PIN J18 [get_ports {VGA_RGB[1]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[1]}]
+#set_property PACKAGE_PIN J17 [get_ports {VGA_RGB[2]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[2]}]
+#set_property PACKAGE_PIN H17 [get_ports {VGA_RGB[2]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[2]}]
+#set_property PACKAGE_PIN G17 [get_ports {VGA_RGB[3]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[3]}]
+#set_property PACKAGE_PIN D17 [get_ports {VGA_RGB[4]}]
+#	set_property IOSTANDARD LVCMOS33 [get_ports {VGA_RGB[4]}]
+#set_property PACKAGE_PIN P19 [get_ports VGA_HS]
+#	set_property IOSTANDARD LVCMOS33 [get_ports VGA_HS]
+#set_property PACKAGE_PIN R19 [get_ports VGA_VS]
+#	set_property IOSTANDARD LVCMOS33 [get_ports VGA_VS]
 
 
 ##USB-RS232 Interface
