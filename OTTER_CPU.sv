@@ -55,7 +55,9 @@ module OTTER_MCU(input CLK,
 
     wire [6:0] opcode;
     wire [31:0] pc, pc_value, next_pc, jalr_pc, branch_pc, jump_pc, int_pc,A,B,
-        I_immed,S_immed,U_immed,aluBin,aluAin,aluResult,rfIn,csr_reg, mem_data, cryptoData;
+        I_immed,S_immed,U_immed,aluBin,aluAin,aluResult,rfIn,csr_reg, mem_data;
+    
+    logic [31:0] cryptoData;
     
     wire [31:0] IR;
     wire memRead1,memRead2;

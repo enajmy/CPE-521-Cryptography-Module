@@ -45,7 +45,8 @@ module Mult5to1(In1, In2, In3, In4, In5, Sel, Out);
             0: Out <= In1; 
             1: Out <= In2; 
             2: Out <= In3;
-            3: Out <= In5;
+            3: Out <= In4;
+            4: Out <= In5;
             default: Out <= In4; 
         endcase
 endmodule
